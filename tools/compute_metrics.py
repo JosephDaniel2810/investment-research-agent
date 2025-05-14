@@ -11,13 +11,10 @@ def compute_metrics(ticker: str) -> str:
     """
     stock = yf.Ticker(ticker)
     info = stock.info
-
-    # Extract metrics with fallbacks
     pe_ratio = info.get("trailingPE")
     eps = info.get("trailingEps")
     avg_volume = info.get("averageVolume")
 
-    # Format the output
     return (
         f"Metrics for {ticker}:\n"
         f"P/E Ratio: {pe_ratio if pe_ratio is not None else 'N/A'}\n"
