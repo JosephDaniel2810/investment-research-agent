@@ -8,14 +8,15 @@ from tools.visualize import plot_price_history
 from tools.technical_indicators import plot_sma, plot_ema, plot_rsi, plot_macd
 from tools.guardrails import validate_query  
 from agents.exceptions import InputGuardrailTripwireTriggered
+from tools.predict_price import predict_price
 
-# OPENAI_API_KEY
+#API_KEY
 load_dotenv()
 
-# 1) Prompt the user
+# 1) Prompt
 ticker = input("Enter a stock ticker (e.g. AAPL, TSLA): ").strip()
 action = input(
-    "Choose an action: data, metrics, chart, sma, ema, rsi, macd, or all: "
+    "Choose an action: data, metrics, chart, sma, ema, rsi, macd, predict, or all: "
 ).strip().lower()
 
 if action == "data":
@@ -46,6 +47,9 @@ elif action == "macd":
         f"Plot the MACD({fast},{slow}) and signal({signal}) "
         f"for {ticker} over the last {period}"
     )
+elif action == "predict":
+    period = input("Enter prediction period (1mo, 6mo, 1y): ").strip()
+    query = f"Predict the closing price for {ticker} for the next {period}"
 elif action == "all":
     period = input("Enter chart period (e.g. 1mo, 3mo, 6mo, 1y): ").strip()
     query = (
@@ -57,7 +61,7 @@ else:
     print("Invalid action. Exiting.")
     exit(1)
 
-# 3) Validate with guardrail
+# 3)guardrail
 try:
     gr_result = asyncio.run(validate_query.guardrail_function(None, None, query))
 except Exception:
@@ -84,6 +88,7 @@ agent = Agent(
         plot_ema,
         plot_rsi,
         plot_macd,
+        predict_price,
     ],
 )
 
@@ -91,7 +96,7 @@ try:
     result = asyncio.run(Runner.run(agent, query))
     print(result.final_output)
 except InputGuardrailTripwireTriggered as e:
-    # Fallback if the SDK trips again
+
     info = getattr(e.args[0], "output_info", str(e.args[0]))
     print(info)
 

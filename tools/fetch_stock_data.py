@@ -1,14 +1,9 @@
-import yfinance as yf
-from agents.tool import function_tool
-
-@function_tool
-def fetch_stock_data(ticker: str) -> str:
+def _fetch_stock_data(ticker: str) -> str:
+    import yfinance as yf
     stock = yf.Ticker(ticker)
     hist = stock.history(period="5d")
-
     if hist.empty:
         return f"No data found for {ticker}"
-
     latest = hist.iloc[-1]
     return (
         f"Stock: {ticker}\n"
@@ -17,3 +12,9 @@ def fetch_stock_data(ticker: str) -> str:
         f"Close: {latest['Close']:.2f}\n"
         f"Volume: {latest['Volume']}\n"
     )
+
+from agents.tool import function_tool
+
+@function_tool
+def fetch_stock_data(ticker: str) -> str:
+    return _fetch_stock_data(ticker)
