@@ -1,12 +1,32 @@
 # investment-research-agent
 
-**AI‑Driven Investment Research Bot** built with the OpenAI Agents SDK and Python.
+**AI‑Driven Investment Research Bot** with a Modern, Animated Streamlit UI
 
-This project implements a command‑line “FinanceBot” that can:
+This project implements a web-based “FinanceBot” that can:
 
 * Fetch the latest stock price data (Open, Close, Volume) for any ticker
 * Compute key financial metrics (P/E ratio, EPS, average volume)
 * Plot historical price charts and technical indicators (SMA, EMA, RSI, MACD)
+* Predict future prices using machine learning
+* Search for stock tickers by company name using OpenAI (AI-powered)
+* Enjoy a beautiful, dark-themed, animated dashboard with dynamic metrics and Lottie graphics
+
+---
+
+## 🚀 Features
+
+- **Modern Streamlit UI**: Dark theme, gradient header, colorful section titles, and animated graphics (Lottie + GIFs)
+- **AI-Powered Ticker Search**: Enter a company name and get the correct stock ticker using OpenAI GPT
+- **Dynamic Metrics**: Price, P/E Ratio, and Volume update live for each stock
+- **Animated Visuals**: Lottie animation in the header, GIFs/icons for sections
+- **All-in-one Dashboard**: Data, metrics, charts, indicators, and predictions in one place
+- **Conversational AI Chatbot**: Ask natural language questions about stocks
+
+---
+
+## 📸 Screenshots
+
+![Modern UI Example](https://user-images.githubusercontent.com/your-screenshot-link.png)
 
 ---
 
@@ -14,13 +34,13 @@ This project implements a command‑line “FinanceBot” that can:
 
 ```
 investment-research-agent/
-├── main.py                  # Entry point: prompts user, builds and runs the agent
-├── agent_config.py          # (Optional) separate module for Agent/Runner setup
+├── app.py                   # Main Streamlit app (modern UI)
+├── agent_config.py          # (Optional) agent/runner setup
 ├── tools/                   # Custom functions exposed as AI tools
-│   ├── fetch_stock_data.py  # @function_tool: download and summarize latest price data
-│   ├── compute_metrics.py   # @function_tool: compute P/E, EPS, average volume
-│   ├── visualize.py         # @function_tool: plot closing price history
-│   └── technical_indicators.py # @function_tool: plot SMA, EMA, RSI, MACD
+│   ├── fetch_stock_data.py  # Download and summarize latest price data
+│   ├── compute_metrics.py   # Compute P/E, EPS, average volume
+│   ├── visualize.py         # Plot closing price history
+│   └── technical_indicators.py # Plot SMA, EMA, RSI, MACD
 ├── requirements.txt         # Project dependencies
 ├── .gitignore               # Ignored files (including .env)
 ├── .env                     # Environment variables (OPENAI_API_KEY)
@@ -29,7 +49,7 @@ investment-research-agent/
 
 ---
 
-## 🚀 Quick Start
+## ⚡ Quick Start
 
 ### 1. Clone the repository
 
@@ -61,48 +81,33 @@ pip install -r requirements.txt
    OPENAI_API_KEY=sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXX
    ```
 
-### 5. Run FinanceBot
+### 5. Run the Modern Dashboard
 
 ```bash
-python3 main.py
+streamlit run app.py
 ```
-
-Follow the interactive prompts to:
-
-* **Enter a ticker** (e.g. `AAPL`, `TSLA`)
-* **Choose an action**:
-
-  * `data`     → fetch raw price data
-  * `metrics`  → compute P/E, EPS, volume
-  * `chart`    → plot closing price history
-  * `sma`, `ema`, `rsi`, `macd` → plot technical indicators
-  * `all`      → run every tool in sequence and display charts together
 
 ---
 
 ## 🧠 How It Works
 
-1. **Agent & Tools**
-
-   * We use the **OpenAI Agents SDK** to create an `Agent` (FinanceBot) and register each Python function decorated with `@function_tool` as a callable tool.
-2. **Natural‑Language Planning**
-
-   * FinanceBot takes your plain English query (constructed in `main.py`) and decides which tool(s) to invoke and in what order.
-3. **Tool Execution**
-
-   * Each tool uses `yfinance` to fetch real market data or `matplotlib` to visualize it.
-   * Results from multiple tools are aggregated and returned as coherent text and charts.
-4. **Interactive CLI**
-
-   * The script prompts the user to choose a ticker and action, then builds a single prompt for the agent.
-   * A final `plt.show()` ensures all generated charts stay visible until closed.
+1. **Modern UI**
+   - Dark theme, gradient header, animated Lottie graphics, and colorful section titles
+   - GIFs/icons for search, analyze, and results sections
+2. **AI Ticker Search**
+   - Enter a company name, click the search icon, and get the correct ticker using OpenAI GPT
+3. **Dynamic Metrics & Visuals**
+   - Price, P/E, and Volume update for each stock
+   - All charts and predictions are shown interactively
+4. **Conversational AI**
+   - Ask the AI bot questions about stocks, metrics, or indicators
 
 ---
 
 ## 🔧 Adding New Tools
 
 1. Create a new Python file under `tools/`, define a function, and decorate with `@function_tool`.
-2. Import and register the tool in `main.py` (and update the prompt logic).
+2. Import and register the tool in `app.py` (and update the UI logic).
 3. The agent will automatically discover and use it based on natural‑language queries.
 
 ---
