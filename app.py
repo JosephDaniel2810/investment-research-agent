@@ -130,7 +130,7 @@ st.sidebar.markdown("<span style='color:#00BFFF;'>Created By Joseph Daniel</span
 search_icon_url = "https://img.icons8.com/ios-filled/50/000000/search--v1.png"  # small search icon
 st.markdown("<div class='section-title'>Search Stock Ticker by Company Name</div>", unsafe_allow_html=True)
 st.markdown(f"<img src='{search_icon_url}' width='20' style='vertical-align:middle;margin-right:8px;'/> <span style='font-size:1.1em;'>Enter a company name (e.g. Apple, Microsoft):</span>", unsafe_allow_html=True)
-company_name = st.text_input("", "")
+company_name = st.text_input("Company name", "", label_visibility="collapsed")
 if st.button("Search Ticker (AI)") and company_name.strip():
     ticker = get_ticker_from_openai(company_name)
     if ticker.startswith("Error"):
